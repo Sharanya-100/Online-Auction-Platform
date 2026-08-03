@@ -199,7 +199,7 @@ const Navbar = () => {
           onClick={handleLinkClick}
         >
           <img
-            src="/BidSmart Auction House Logo.png"
+            src="/BidSmart-Auction-House-Logo.png"
             alt="Auction Platform"
             height="30"
             className="me-2"
