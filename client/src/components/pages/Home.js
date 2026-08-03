@@ -46,7 +46,7 @@ const Home = () => {
             </div>
             <div className="col-md-6 d-none d-md-block">
               <img
-                src="/Bidsmart-Auction-House-Logo.png"
+                src="/BidSmart-Auction-House-Logo.png"
                 alt="Auction Platform"
                 className="img-fluid rounded shadow"
               />
