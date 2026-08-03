@@ -100,7 +100,7 @@ const AuctionList = ({ showAlert }) => {
         }
 
         const res = await axios.get(
-          `http://localhost:5000/api/auctions?${queryParams.toString()}`
+          `https://online-auction-platform-pqdh.onrender.com/api/auctions?${queryParams.toString()}`
         );
 
         if (res.data && res.data.auctions) {
@@ -279,7 +279,7 @@ const AuctionList = ({ showAlert }) => {
                       auction.product.images.length > 0
                         ? auction.product.images[0].startsWith("http")
                           ? auction.product.images[0]
-                          : `http://localhost:5000${auction.product.images[0]}`
+                          : `https://online-auction-platform-pqdh.onrender.com${auction.product.images[0]}`
                         : `https://via.placeholder.com/300x200?text=${
                             auction.product
                               ? auction.product.name

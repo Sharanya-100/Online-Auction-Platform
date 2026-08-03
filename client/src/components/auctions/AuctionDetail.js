@@ -27,7 +27,7 @@ const AuctionDetail = ({ showAlert }) => {
 
         // Fetch auction details
         const auctionRes = await axios.get(
-          `http://localhost:5000/api/auctions/${id}`
+          `https://online-auction-platform-pqdh.onrender.com/api/auctions/${id}`
         );
         setAuction(auctionRes.data);
 
@@ -38,7 +38,7 @@ const AuctionDetail = ({ showAlert }) => {
 
         // Fetch bids for this auction
         const bidsRes = await axios.get(
-          `http://localhost:5000/api/bids/auction/${id}`
+          `https://online-auction-platform-pqdh.onrender.com/api/bids/auction/${id}`
         );
         setBids(bidsRes.data);
 
@@ -236,10 +236,13 @@ const AuctionDetail = ({ showAlert }) => {
 
     try {
       // Place bid via API
-      const res = await axios.post("http://localhost:5000/api/bids", {
-        auction: id,
-        amount: parseFloat(bidAmount),
-      });
+      const res = await axios.post(
+        "https://online-auction-platform-pqdh.onrender.com/api/bids",
+        {
+          auction: id,
+          amount: parseFloat(bidAmount),
+        }
+      );
 
       // Emit bid via socket - this is now redundant as the server will broadcast the bid
       // but keeping it as a fallback
@@ -408,7 +411,7 @@ const AuctionDetail = ({ showAlert }) => {
                         auction.product.images.length > 0
                           ? auction.product.images[0].startsWith("http")
                             ? auction.product.images[0]
-                            : `http://localhost:5000${auction.product.images[0]}`
+                            : `https://online-auction-platform-pqdh.onrender.com${auction.product.images[0]}`
                           : `https://via.placeholder.com/400x300?text=${auction.product.name}`
                       }
                       alt={auction.product.name}
@@ -447,7 +450,7 @@ const AuctionDetail = ({ showAlert }) => {
                               src={
                                 image.startsWith("http")
                                   ? image
-                                  : `http://localhost:5000${image}`
+                                  : `https://online-auction-platform-pqdh.onrender.com${image}`
                               }
                               alt={`${auction.product.name} ${index + 2}`}
                               className="img-thumbnail"

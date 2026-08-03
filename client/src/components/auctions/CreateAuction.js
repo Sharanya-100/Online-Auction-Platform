@@ -31,7 +31,7 @@ const CreateAuction = ({ showAlert }) => {
         // If productId is provided, fetch that specific product
         if (productId) {
           const res = await axios.get(
-            `http://localhost:5000/api/products/${productId}`
+            `https://online-auction-platform-pqdh.onrender.com/api/products/${productId}`
           );
           setProduct(res.data);
 
@@ -45,7 +45,7 @@ const CreateAuction = ({ showAlert }) => {
 
         // Always fetch user's products for the dropdown
         const userProductsRes = await axios.get(
-          "http://localhost:5000/api/products/user/me"
+          "https://online-auction-platform-pqdh.onrender.com/api/products/user/me"
         );
 
         if (userProductsRes.data.length === 0) {
@@ -111,7 +111,7 @@ const CreateAuction = ({ showAlert }) => {
       } else {
         // If not found (shouldn't happen), fetch it
         const res = await axios.get(
-          `http://localhost:5000/api/products/${newProductId}`
+          `https://online-auction-platform-pqdh.onrender.com/api/products/${newProductId}`
         );
         setProduct(res.data);
         setFormData((prevState) => ({
@@ -190,7 +190,7 @@ const CreateAuction = ({ showAlert }) => {
       console.log("Submitting auction data:", auctionData);
 
       const res = await axios.post(
-        "http://localhost:5000/api/auctions",
+        "https://online-auction-platform-pqdh.onrender.com/api/auctions",
         auctionData,
         config
       );
@@ -302,7 +302,7 @@ const CreateAuction = ({ showAlert }) => {
                               product.images && product.images.length > 0
                                 ? product.images[0].startsWith("http")
                                   ? product.images[0]
-                                  : `http://localhost:5000${product.images[0]}`
+                                  : `https://online-auction-platform-pqdh.onrender.com${product.images[0]}`
                                 : `https://via.placeholder.com/200x150?text=${product.name}`
                             }
                             alt={product.name}

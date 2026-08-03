@@ -10,7 +10,7 @@ const Home = () => {
     const fetchFeaturedAuctions = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:5000/api/auctions/active"
+          "https://online-auction-platform-pqdh.onrender.com/api/auctions/active"
         );
         setFeaturedAuctions(res.data.slice(0, 4)); // Get first 4 active auctions
         setLoading(false);
@@ -76,7 +76,7 @@ const Home = () => {
                       auction.product.images.length > 0
                         ? auction.product.images[0].startsWith("http")
                           ? auction.product.images[0]
-                          : `http://localhost:5000${auction.product.images[0]}`
+                          : `https://online-auction-platform-pqdh.onrender.com${auction.product.images[0]}`
                         : `https://via.placeholder.com/300x200?text=${auction.product.name}`
                     }
                     className="card-img-top"

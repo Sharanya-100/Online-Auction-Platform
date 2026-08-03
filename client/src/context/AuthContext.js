@@ -22,7 +22,7 @@ export const AuthProvider = ({ children }) => {
       if (token) {
         try {
           const res = await axios.get(
-            "http://localhost:5000/api/users/profile"
+            "https://online-auction-platform-pqdh.onrender.com/api/users/profile"
           );
           setUser(res.data);
           setIsAuthenticated(true);
@@ -44,7 +44,7 @@ export const AuthProvider = ({ children }) => {
   const register = async (formData) => {
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/users/register",
+        "https://online-auction-platform-pqdh.onrender.com/api/users/register",
         formData
       );
 
@@ -65,7 +65,7 @@ export const AuthProvider = ({ children }) => {
   // Login user
   const login = async (email, password) => {
     try {
-      const res = await axios.post("http://localhost:5000/api/users/login", {
+      const res = await axios.post("https://online-auction-platform-pqdh.onrender.com/api/users/login", {
         email,
         password,
       });
@@ -96,7 +96,7 @@ export const AuthProvider = ({ children }) => {
   const updateProfile = async (formData) => {
     try {
       const res = await axios.put(
-        "http://localhost:5000/api/users/profile",
+        "https://online-auction-platform-pqdh.onrender.com/api/users/profile",
         formData
       );
       setUser(res.data);
@@ -112,7 +112,7 @@ export const AuthProvider = ({ children }) => {
   // Change password
   const changePassword = async (currentPassword, newPassword) => {
     try {
-      await axios.put("http://localhost:5000/api/users/password", {
+      await axios.put("https://online-auction-platform-pqdh.onrender.com/api/users/password", {
         currentPassword,
         newPassword,
       });

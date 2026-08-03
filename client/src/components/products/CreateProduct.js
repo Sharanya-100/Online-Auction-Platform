@@ -72,7 +72,7 @@ const CreateProduct = ({ showAlert }) => {
       });
 
       const response = await axios.post(
-        "http://localhost:5000/api/uploads",
+        "https://online-auction-platform-pqdh.onrender.com/api/uploads",
         formData,
         {
           headers: {
@@ -118,14 +118,17 @@ const CreateProduct = ({ showAlert }) => {
       }
 
       // Create product
-      const res = await axios.post("http://localhost:5000/api/products", {
-        name,
-        description,
-        category,
-        condition,
-        images: productImages,
-        startingPrice: parseFloat(startingPrice),
-      });
+      const res = await axios.post(
+        "https://online-auction-platform-pqdh.onrender.com/api/products",
+        {
+          name,
+          description,
+          category,
+          condition,
+          images: productImages,
+          startingPrice: parseFloat(startingPrice),
+        }
+      );
 
       showAlert("Product created successfully!", "success");
 

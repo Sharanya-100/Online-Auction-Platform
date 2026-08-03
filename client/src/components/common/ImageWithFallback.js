@@ -35,11 +35,11 @@ const ImageWithFallback = ({ src, fallbackSrc, alt = "Image", ...props }) => {
 
     // Backend uploaded files
     if (url.startsWith("/uploads/")) {
-      return `http://localhost:5000${url}`;
+      return `https://online-auction-platform-pqdh.onrender.com${url}`;
     }
 
     if (url.startsWith("uploads/")) {
-      return `http://localhost:5000/${url}`;
+      return `https://online-auction-platform-pqdh.onrender.com/${url}`;
     }
 
     // Files beginning with / are assumed to be in React's public folder
@@ -48,7 +48,7 @@ const ImageWithFallback = ({ src, fallbackSrc, alt = "Image", ...props }) => {
     }
 
     // Other relative paths are assumed to come from backend
-    return `http://localhost:5000/${url}`;
+    return `https://online-auction-platform-pqdh.onrender.com/${url}`;
   };
 
   const handleError = () => {

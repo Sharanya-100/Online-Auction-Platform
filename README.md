@@ -67,7 +67,7 @@ npm run dev
 
 This will start:
 
-- Backend server on http://localhost:5000
+- Backend server on https://online-auction-platform-pqdh.onrender.com
 - Frontend development server on http://localhost:3000
 
 ### Production Mode

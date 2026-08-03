@@ -12,13 +12,16 @@ export const SocketProvider = ({ children }) => {
     console.log("Initializing Socket.io connection");
 
     // Create socket instance
-    const socketInstance = io("http://localhost:5000", {
-      reconnectionAttempts: 5,
-      reconnectionDelay: 1000,
-      autoConnect: true,
-      timeout: 10000,
-      transports: ["websocket", "polling"], // Try WebSocket first, then polling
-    });
+    const socketInstance = io(
+      "https://online-auction-platform-pqdh.onrender.com",
+      {
+        reconnectionAttempts: 5,
+        reconnectionDelay: 1000,
+        autoConnect: true,
+        timeout: 10000,
+        transports: ["websocket", "polling"], // Try WebSocket first, then polling
+      }
+    );
 
     // Set up event listeners
     socketInstance.on("connect", () => {

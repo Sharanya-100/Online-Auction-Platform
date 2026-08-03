@@ -18,13 +18,13 @@ const ProductDetail = ({ showAlert }) => {
 
         // Fetch product details
         const productRes = await axios.get(
-          `http://localhost:5000/api/products/${id}`
+          `https://online-auction-platform-pqdh.onrender.com/api/products/${id}`
         );
         setProduct(productRes.data);
 
         // Fetch active auctions for this product
         const auctionsRes = await axios.get(
-          `http://localhost:5000/api/auctions?product=${id}&status=active`
+          `https://online-auction-platform-pqdh.onrender.com/api/auctions?product=${id}&status=active`
         );
 
         if (auctionsRes.data.auctions) {
@@ -92,7 +92,7 @@ const ProductDetail = ({ showAlert }) => {
                       product.images && product.images.length > 0
                         ? product.images[0].startsWith("http")
                           ? product.images[0]
-                          : `http://localhost:5000${product.images[0]}`
+                          : `https://online-auction-platform-pqdh.onrender.com${product.images[0]}`
                         : `https://via.placeholder.com/400x300?text=${product.name}`
                     }
                     alt={product.name}
@@ -107,7 +107,7 @@ const ProductDetail = ({ showAlert }) => {
                             src={
                               image.startsWith("http")
                                 ? image
-                                : `http://localhost:5000${image}`
+                                : `https://online-auction-platform-pqdh.onrender.com${image}`
                             }
                             alt={`${product.name} ${index + 2}`}
                             className="img-thumbnail"
