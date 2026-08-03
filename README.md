@@ -1,264 +1,146 @@
 # Online Auction Platform
 
-A full-stack online auction application built with the MERN stack and Socket.io. Users can register, create products, launch auctions, place bids, upload product images, and track their activities through a dashboard and profile pages.
+A real-time online auction platform built with the MERN stack (MongoDB, Express, React, Node.js) and Socket.io for real-time bidding functionality.
 
-## Overview
+## Features
 
-This project provides a complete auction marketplace experience with:
-
-- User authentication and protected routes
-- Product management for sellers
-- Auction creation with scheduling and bidding rules
-- Real-time bid updates using Socket.io
-- Image uploads for products
-- User dashboards for products, auctions, and bids
-- Responsive UI built with React and Bootstrap
-
-## Key Features
-
-### User Authentication
-
-- Register and log in with JWT-based authentication
-- Secure access to private routes such as dashboard, profile, and creation pages
-- Profile management with editable personal details and password change support
-
-### Product Management
-
-- Create products with name, description, category, condition, and starting price
-- Upload multiple product images
-- View product details and browse products by category or condition
-- Sellers can update or remove their own products
-
-### Auction Management
-
-- Create auctions tied to existing products
-- Set start time, end time, starting bid, and minimum bid increment
-- Auction states include pending, active, completed, and cancelled
-- Automatic status updates based on scheduled time
-- Sellers can manage or cancel auctions when allowed
-
-### Bidding Experience
-
-- Place bids with validation for minimum increments and current highest bid
-- Prevent self-bidding on your own auction
-- View bid history per auction
-- Track active bids and auctions won by the current user
-- Real-time updates for new bids and auction changes
-
-### Real-Time Communication
-
-- Socket.io-powered auction rooms
-- Immediate broadcast of new bids and auction updates to connected clients
-- Live auction experience without page refresh
-
-### User Experience
-
-- Responsive Bootstrap-based UI
-- Dedicated home, auctions, products, dashboard, profile, and not-found pages
-- Alert system for feedback and form validation messages
+- User authentication and authorization
+- Product listing and management
+- Real-time auction creation and bidding
+- Dashboard for managing products, auctions, and bids
+- Responsive design with Bootstrap
 
 ## Tech Stack
 
-### Frontend
-
-- React
-- React Router
-- Bootstrap
-- Axios
-- Socket.io Client
-- React Datepicker
-
-### Backend
-
-- Node.js
-- Express.js
-- MongoDB with Mongoose
-- JSON Web Tokens (JWT)
-- Socket.io
-- Multer for image uploads
-- Bcrypt.js for password hashing
-
-## Project Structure
-
-```text
-client/                 # React frontend
-  src/
-    components/          # Pages, layout, auth, auctions, products, dashboard, profile
-    context/             # Auth and Socket context providers
-    App.js               # Main app routes
-
-server/                 # Express backend
-  models/                # User, Product, Auction, Bid schemas
-  routes/                # Auth, products, auctions, bids, uploads endpoints
-  middleware/            # Auth middleware
-  uploads/               # Uploaded product images
-  server.js              # Express + Socket.io server entry point
-```
+- **Frontend**: React, Bootstrap, Socket.io-client
+- **Backend**: Node.js, Express
+- **Database**: MongoDB
+- **Real-time Communication**: Socket.io
+- **Authentication**: JWT (JSON Web Tokens)
 
 ## Prerequisites
 
-Make sure the following are installed:
-
-- Node.js (recommended: v18 or later)
-- npm
-- MongoDB running locally or accessible through a MongoDB Atlas connection
-
-## Environment Variables
-
-Create a .env file inside the server directory with values similar to the following:
-
-```env
-MONGODB_URI=mongodb://localhost:27017/auction-platform
-PORT=5000
-JWT_SECRET=your_jwt_secret_key_here
-```
+- Node.js (v14 or higher)
+- MongoDB (local or Atlas)
+- npm or yarn
 
 ## Installation
 
-1. Clone the repository
+1. Clone the repository:
 
-```bash
-git clone <repository-url>
-cd Online-Auction-Platform
-```
+   ```
+   git clone https://github.com/yourusername/auction-platform.git
+   cd auction-platform
+   ```
 
-2. Install backend dependencies
+2. Install server dependencies:
 
-```bash
-cd server
-npm install
-```
+   ```
+   cd server
+   npm install
+   ```
 
-3. Install frontend dependencies
+3. Install client dependencies:
 
-```bash
-cd ../client
-npm install
-```
+   ```
+   cd ../client
+   npm install
+   ```
+
+4. Create a `.env` file in the server directory with the following variables:
+   ```
+   MONGODB_URI=mongodb://localhost:27017/auction-platform
+   PORT=5000
+   JWT_SECRET=your_jwt_secret_key_here
+   ```
 
 ## Running the Application
 
-### Option 1: Start both frontend and backend together
+### Development Mode
 
-From the server directory:
+To run both the server and client concurrently:
 
-```bash
+```
+cd server
 npm run dev
 ```
 
-This starts:
+This will start:
 
 - Backend server on http://localhost:5000
 - Frontend development server on http://localhost:3000
 
-### Option 2: Start with the provided Windows batch file
+### Production Mode
 
-From the project root:
+1. Build the client:
 
-```bash
-start.bat
-```
+   ```
+   cd client
+   npm run build
+   ```
 
-### Production build
+2. Start the server:
+   ```
+   cd ../server
+   npm start
+   ```
 
-Build the client:
-
-```bash
-cd client
-npm run build
-```
-
-Start the server:
-
-```bash
-cd ../server
-npm start
-```
-
-## Main Application Routes
-
-### Public Routes
-
-- /
-- /login
-- /register
-- /auctions
-- /auctions/:id
-- /products
-- /products/:id
-
-### Protected Routes
-
-- /dashboard
-- /profile
-- /create-product
-- /create-auction
-- /create-auction/:productId
-
-## API Overview
+## API Endpoints
 
 ### Authentication
 
-- POST /api/users/register
-- POST /api/users/login
+- `POST /api/users/register` - Register a new user
+- `POST /api/users/login` - Login a user
 
 ### Users
 
-- GET /api/users/profile
-- PUT /api/users/profile
-- PUT /api/users/password
+- `GET /api/users/profile` - Get current user profile
+- `PUT /api/users/profile` - Update user profile
+- `PUT /api/users/password` - Change password
 
 ### Products
 
-- POST /api/products
-- GET /api/products
-- GET /api/products/:id
-- PUT /api/products/:id
-- DELETE /api/products/:id
-- GET /api/products/user/me
+- `POST /api/products` - Create a new product
+- `GET /api/products` - Get all products
+- `GET /api/products/:id` - Get product by ID
+- `PUT /api/products/:id` - Update a product
+- `DELETE /api/products/:id` - Delete a product
+- `GET /api/products/user/me` - Get all products by current user
 
 ### Auctions
 
-- POST /api/auctions
-- GET /api/auctions
-- GET /api/auctions/active
-- GET /api/auctions/:id
-- PUT /api/auctions/:id
-- DELETE /api/auctions/:id
-- GET /api/auctions/user/me
+- `POST /api/auctions` - Create a new auction
+- `GET /api/auctions` - Get all auctions
+- `GET /api/auctions/active` - Get all active auctions
+- `GET /api/auctions/:id` - Get auction by ID
+- `PUT /api/auctions/:id` - Update auction details
+- `DELETE /api/auctions/:id` - Cancel an auction
+- `GET /api/auctions/user/me` - Get all auctions created by current user
 
 ### Bids
 
-- POST /api/bids
-- GET /api/bids/auction/:auctionId
-- GET /api/bids/user/me
-- GET /api/bids/active
-- GET /api/bids/won
+- `POST /api/bids` - Place a new bid
+- `GET /api/bids/auction/:auctionId` - Get all bids for a specific auction
+- `GET /api/bids/user/me` - Get all bids made by current user
+- `GET /api/bids/active` - Get all active bids by current user
+- `GET /api/bids/won` - Get all auctions won by current user
 
-### Uploads
+## Socket.io Events
 
-- POST /api/uploads
-- GET /api/uploads/:filename
-- DELETE /api/uploads/:filename
-
-## Real-Time Socket Events
-
-The server listens for and broadcasts:
-
-- joinAuction
-- leaveAuction
-- newBid
-- bidPlaced
-- auctionUpdated
-- auctionStatusChanged
-- newAuction
-
-## Notes
-
-- Uploaded images are stored in the server uploads folder and served via /uploads
-- The backend automatically updates auction status based on current time
-- The project currently uses a local development setup and does not include a dedicated license file
+- `joinAuction` - Join an auction room
+- `leaveAuction` - Leave an auction room
+- `newBid` - Place a new bid
+- `bidPlaced` - Receive notification of a new bid
 
 ## License
 
-This project currently does not include a license file. Add one if you plan to distribute or publish it publicly.
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Acknowledgements
+
+- [MongoDB](https://www.mongodb.com/)
+- [Express](https://expressjs.com/)
+- [React](https://reactjs.org/)
+- [Node.js](https://nodejs.org/)
+- [Socket.io](https://socket.io/)
+- [Bootstrap](https://getbootstrap.com/)

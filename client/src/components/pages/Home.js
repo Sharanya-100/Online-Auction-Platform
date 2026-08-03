@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import axios from "axios";
 
 const Home = () => {
   const [featuredAuctions, setFeaturedAuctions] = useState([]);
@@ -9,11 +9,13 @@ const Home = () => {
   useEffect(() => {
     const fetchFeaturedAuctions = async () => {
       try {
-        const res = await axios.get('http://localhost:5000/api/auctions/active');
+        const res = await axios.get(
+          "http://localhost:5000/api/auctions/active"
+        );
         setFeaturedAuctions(res.data.slice(0, 4)); // Get first 4 active auctions
         setLoading(false);
       } catch (err) {
-        console.error('Error fetching featured auctions:', err);
+        console.error("Error fetching featured auctions:", err);
         setLoading(false);
       }
     };
@@ -186,4 +188,4 @@ const Home = () => {
   );
 };
 
-export default Home; 
+export default Home;

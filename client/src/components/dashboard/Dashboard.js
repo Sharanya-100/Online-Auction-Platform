@@ -1,76 +1,90 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { Link } from 'react-router-dom';
-import axios from 'axios';
-import AuthContext from '../../context/AuthContext';
+import React, { useState, useEffect, useContext } from "react";
+import { Link } from "react-router-dom";
+import axios from "axios";
+import AuthContext from "../../context/AuthContext";
 
 const Dashboard = ({ showAlert }) => {
   const { user } = useContext(AuthContext);
-  
+
   const [myProducts, setMyProducts] = useState([]);
   const [myAuctions, setMyAuctions] = useState([]);
   const [myBids, setMyBids] = useState([]);
   const [wonAuctions, setWonAuctions] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState('products');
-  
+  const [activeTab, setActiveTab] = useState("products");
+
   useEffect(() => {
     const fetchDashboardData = async () => {
       try {
         setLoading(true);
-        
+
         // Fetch user's products
-        const productsRes = await axios.get('http://localhost:5000/api/products/user/me');
+        const productsRes = await axios.get(
+          "http://localhost:5000/api/products/user/me"
+        );
         setMyProducts(productsRes.data);
-        
+
         // Fetch user's auctions
-        const auctionsRes = await axios.get('http://localhost:5000/api/auctions/user/me');
+        const auctionsRes = await axios.get(
+          "http://localhost:5000/api/auctions/user/me"
+        );
         setMyAuctions(auctionsRes.data);
-        
+
         // Fetch user's bids
-        const bidsRes = await axios.get('http://localhost:5000/api/bids/user/me');
+        const bidsRes = await axios.get(
+          "http://localhost:5000/api/bids/user/me"
+        );
         setMyBids(bidsRes.data);
-        
+
         // Fetch user's won auctions
-        const wonRes = await axios.get('http://localhost:5000/api/bids/won');
+        const wonRes = await axios.get("http://localhost:5000/api/bids/won");
         setWonAuctions(wonRes.data);
-        
+
         setLoading(false);
       } catch (err) {
-        console.error('Error fetching dashboard data:', err);
-        showAlert('Error loading dashboard data', 'danger');
+        console.error("Error fetching dashboard data:", err);
+        showAlert("Error loading dashboard data", "danger");
         setLoading(false);
       }
     };
-    
+
     fetchDashboardData();
   }, [showAlert]);
-  
+
   const handleDeleteProduct = async (id) => {
-    if (window.confirm('Are you sure you want to delete this product?')) {
+    if (window.confirm("Are you sure you want to delete this product?")) {
       try {
         await axios.delete(`http://localhost:5000/api/products/${id}`);
-        setMyProducts(myProducts.filter(product => product._id !== id));
-        showAlert('Product deleted successfully', 'success');
+        setMyProducts(myProducts.filter((product) => product._id !== id));
+        showAlert("Product deleted successfully", "success");
       } catch (err) {
-        showAlert(err.response?.data?.message || 'Error deleting product', 'danger');
+        showAlert(
+          err.response?.data?.message || "Error deleting product",
+          "danger"
+        );
       }
     }
   };
-  
+
   const handleCancelAuction = async (id) => {
-    if (window.confirm('Are you sure you want to cancel this auction?')) {
+    if (window.confirm("Are you sure you want to cancel this auction?")) {
       try {
         await axios.delete(`http://localhost:5000/api/auctions/${id}`);
-        setMyAuctions(myAuctions.map(auction => 
-          auction._id === id ? { ...auction, status: 'cancelled' } : auction
-        ));
-        showAlert('Auction cancelled successfully', 'success');
+        setMyAuctions(
+          myAuctions.map((auction) =>
+            auction._id === id ? { ...auction, status: "cancelled" } : auction
+          )
+        );
+        showAlert("Auction cancelled successfully", "success");
       } catch (err) {
-        showAlert(err.response?.data?.message || 'Error cancelling auction', 'danger');
+        showAlert(
+          err.response?.data?.message || "Error cancelling auction",
+          "danger"
+        );
       }
     }
   };
-  
+
   if (loading) {
     return (
       <div className="d-flex justify-content-center my-5">
@@ -80,7 +94,7 @@ const Dashboard = ({ showAlert }) => {
       </div>
     );
   }
-  
+
   return (
     <div className="container">
       <div className="row mb-4">
@@ -94,38 +108,42 @@ const Dashboard = ({ showAlert }) => {
           </Link>
         </div>
       </div>
-      
+
       <div className="card shadow-sm mb-4">
         <div className="card-header bg-white">
           <ul className="nav nav-tabs card-header-tabs">
             <li className="nav-item">
-              <button 
-                className={`nav-link ${activeTab === 'products' ? 'active' : ''}`}
-                onClick={() => setActiveTab('products')}
+              <button
+                className={`nav-link ${
+                  activeTab === "products" ? "active" : ""
+                }`}
+                onClick={() => setActiveTab("products")}
               >
                 My Products
               </button>
             </li>
             <li className="nav-item">
-              <button 
-                className={`nav-link ${activeTab === 'auctions' ? 'active' : ''}`}
-                onClick={() => setActiveTab('auctions')}
+              <button
+                className={`nav-link ${
+                  activeTab === "auctions" ? "active" : ""
+                }`}
+                onClick={() => setActiveTab("auctions")}
               >
                 My Auctions
               </button>
             </li>
             <li className="nav-item">
-              <button 
-                className={`nav-link ${activeTab === 'bids' ? 'active' : ''}`}
-                onClick={() => setActiveTab('bids')}
+              <button
+                className={`nav-link ${activeTab === "bids" ? "active" : ""}`}
+                onClick={() => setActiveTab("bids")}
               >
                 My Bids
               </button>
             </li>
             <li className="nav-item">
-              <button 
-                className={`nav-link ${activeTab === 'won' ? 'active' : ''}`}
-                onClick={() => setActiveTab('won')}
+              <button
+                className={`nav-link ${activeTab === "won" ? "active" : ""}`}
+                onClick={() => setActiveTab("won")}
               >
                 Won Auctions
               </button>
@@ -134,7 +152,7 @@ const Dashboard = ({ showAlert }) => {
         </div>
         <div className="card-body">
           {/* My Products Tab */}
-          {activeTab === 'products' && (
+          {activeTab === "products" && (
             <>
               {myProducts.length > 0 ? (
                 <div className="table-responsive">
@@ -149,10 +167,13 @@ const Dashboard = ({ showAlert }) => {
                       </tr>
                     </thead>
                     <tbody>
-                      {myProducts.map(product => (
+                      {myProducts.map((product) => (
                         <tr key={product._id}>
                           <td>
-                            <Link to={`/products/${product._id}`} className="text-decoration-none">
+                            <Link
+                              to={`/products/${product._id}`}
+                              className="text-decoration-none"
+                            >
                               {product.name}
                             </Link>
                           </td>
@@ -160,10 +181,13 @@ const Dashboard = ({ showAlert }) => {
                           <td>{product.condition}</td>
                           <td>${product.startingPrice}</td>
                           <td>
-                            <Link to={`/create-auction/${product._id}`} className="btn btn-sm btn-outline-primary me-2">
+                            <Link
+                              to={`/create-auction/${product._id}`}
+                              className="btn btn-sm btn-outline-primary me-2"
+                            >
                               Create Auction
                             </Link>
-                            <button 
+                            <button
                               className="btn btn-sm btn-outline-danger"
                               onClick={() => handleDeleteProduct(product._id)}
                             >
@@ -185,9 +209,9 @@ const Dashboard = ({ showAlert }) => {
               )}
             </>
           )}
-          
+
           {/* My Auctions Tab */}
-          {activeTab === 'auctions' && (
+          {activeTab === "auctions" && (
             <>
               {myAuctions.length > 0 ? (
                 <div className="table-responsive">
@@ -203,28 +227,40 @@ const Dashboard = ({ showAlert }) => {
                       </tr>
                     </thead>
                     <tbody>
-                      {myAuctions.map(auction => (
+                      {myAuctions.map((auction) => (
                         <tr key={auction._id}>
                           <td>
-                            <Link to={`/auctions/${auction._id}`} className="text-decoration-none">
+                            <Link
+                              to={`/auctions/${auction._id}`}
+                              className="text-decoration-none"
+                            >
                               {auction.product.name}
                             </Link>
                           </td>
-                          <td>{new Date(auction.startTime).toLocaleString()}</td>
+                          <td>
+                            {new Date(auction.startTime).toLocaleString()}
+                          </td>
                           <td>{new Date(auction.endTime).toLocaleString()}</td>
                           <td>${auction.currentBid}</td>
                           <td>
-                            <span className={`badge bg-${
-                              auction.status === 'active' ? 'success' : 
-                              auction.status === 'pending' ? 'warning' : 
-                              auction.status === 'completed' ? 'info' : 'danger'
-                            }`}>
-                              {auction.status.charAt(0).toUpperCase() + auction.status.slice(1)}
+                            <span
+                              className={`badge bg-${
+                                auction.status === "active"
+                                  ? "success"
+                                  : auction.status === "pending"
+                                  ? "warning"
+                                  : auction.status === "completed"
+                                  ? "info"
+                                  : "danger"
+                              }`}
+                            >
+                              {auction.status.charAt(0).toUpperCase() +
+                                auction.status.slice(1)}
                             </span>
                           </td>
                           <td>
-                            {auction.status === 'pending' && (
-                              <button 
+                            {auction.status === "pending" && (
+                              <button
                                 className="btn btn-sm btn-outline-danger"
                                 onClick={() => handleCancelAuction(auction._id)}
                               >
@@ -247,9 +283,9 @@ const Dashboard = ({ showAlert }) => {
               )}
             </>
           )}
-          
+
           {/* My Bids Tab */}
-          {activeTab === 'bids' && (
+          {activeTab === "bids" && (
             <>
               {myBids.length > 0 ? (
                 <div className="table-responsive">
@@ -264,26 +300,39 @@ const Dashboard = ({ showAlert }) => {
                       </tr>
                     </thead>
                     <tbody>
-                      {myBids.map(bid => (
+                      {myBids.map((bid) => (
                         <tr key={bid._id}>
                           <td>
-                            <Link to={`/auctions/${bid.auction._id}`} className="text-decoration-none">
+                            <Link
+                              to={`/auctions/${bid.auction._id}`}
+                              className="text-decoration-none"
+                            >
                               {bid.auction.product.name}
                             </Link>
                           </td>
                           <td>${bid.amount}</td>
                           <td>{new Date(bid.timestamp).toLocaleString()}</td>
                           <td>
-                            <span className={`badge bg-${
-                              bid.status === 'active' ? 'success' : 
-                              bid.status === 'outbid' ? 'warning' : 
-                              bid.status === 'won' ? 'info' : 'secondary'
-                            }`}>
-                              {bid.status.charAt(0).toUpperCase() + bid.status.slice(1)}
+                            <span
+                              className={`badge bg-${
+                                bid.status === "active"
+                                  ? "success"
+                                  : bid.status === "outbid"
+                                  ? "warning"
+                                  : bid.status === "won"
+                                  ? "info"
+                                  : "secondary"
+                              }`}
+                            >
+                              {bid.status.charAt(0).toUpperCase() +
+                                bid.status.slice(1)}
                             </span>
                           </td>
                           <td>
-                            <Link to={`/auctions/${bid.auction._id}`} className="btn btn-sm btn-outline-primary">
+                            <Link
+                              to={`/auctions/${bid.auction._id}`}
+                              className="btn btn-sm btn-outline-primary"
+                            >
                               View Auction
                             </Link>
                           </td>
@@ -302,9 +351,9 @@ const Dashboard = ({ showAlert }) => {
               )}
             </>
           )}
-          
+
           {/* Won Auctions Tab */}
-          {activeTab === 'won' && (
+          {activeTab === "won" && (
             <>
               {wonAuctions.length > 0 ? (
                 <div className="table-responsive">
@@ -319,10 +368,13 @@ const Dashboard = ({ showAlert }) => {
                       </tr>
                     </thead>
                     <tbody>
-                      {wonAuctions.map(auction => (
+                      {wonAuctions.map((auction) => (
                         <tr key={auction._id}>
                           <td>
-                            <Link to={`/auctions/${auction._id}`} className="text-decoration-none">
+                            <Link
+                              to={`/auctions/${auction._id}`}
+                              className="text-decoration-none"
+                            >
                               {auction.product.name}
                             </Link>
                           </td>
@@ -330,7 +382,10 @@ const Dashboard = ({ showAlert }) => {
                           <td>{new Date(auction.endTime).toLocaleString()}</td>
                           <td>{auction.createdBy.username}</td>
                           <td>
-                            <Link to={`/auctions/${auction._id}`} className="btn btn-sm btn-outline-primary">
+                            <Link
+                              to={`/auctions/${auction._id}`}
+                              className="btn btn-sm btn-outline-primary"
+                            >
                               View Details
                             </Link>
                           </td>
@@ -355,4 +410,4 @@ const Dashboard = ({ showAlert }) => {
   );
 };
 
-export default Dashboard; 
+export default Dashboard;

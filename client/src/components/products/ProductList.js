@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import axios from "axios";
 
 const ProductList = ({ showAlert }) => {
   const [products, setProducts] = useState([]);
@@ -8,60 +8,62 @@ const ProductList = ({ showAlert }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [filters, setFilters] = useState({
-    category: '',
-    condition: '',
-    seller: ''
+    category: "",
+    condition: "",
+    seller: "",
   });
-  
+
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         setLoading(true);
-        
+
         // Build query string for filters
         const queryParams = new URLSearchParams();
-        queryParams.append('page', currentPage);
-        
+        queryParams.append("page", currentPage);
+
         if (filters.category) {
-          queryParams.append('category', filters.category);
+          queryParams.append("category", filters.category);
         }
-        
+
         if (filters.condition) {
-          queryParams.append('condition', filters.condition);
+          queryParams.append("condition", filters.condition);
         }
-        
+
         if (filters.seller) {
-          queryParams.append('seller', filters.seller);
+          queryParams.append("seller", filters.seller);
         }
-        
-        const res = await axios.get(`http://localhost:5000/api/products?${queryParams.toString()}`);
-        
+
+        const res = await axios.get(
+          `http://localhost:5000/api/products?${queryParams.toString()}`
+        );
+
         setProducts(res.data.products);
         setTotalPages(res.data.totalPages);
         setLoading(false);
       } catch (err) {
-        console.error('Error fetching products:', err);
-        showAlert('Error loading products', 'danger');
+        console.error("Error fetching products:", err);
+        showAlert("Error loading products", "danger");
         setLoading(false);
       }
     };
-    
+
     fetchProducts();
   }, [currentPage, filters, showAlert]);
-  
-  const handleFilterChange = e => {
+
+  const handleFilterChange = (e) => {
     setFilters({
       ...filters,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
     setCurrentPage(1); // Reset to first page when filter changes
   };
-  
+
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
     window.scrollTo(0, 0);
   };
-  
+
   return (
     <div className="container">
       <div className="row mb-4">
@@ -75,13 +77,15 @@ const ProductList = ({ showAlert }) => {
           </Link>
         </div>
       </div>
-      
+
       {/* Filter Options */}
       <div className="card shadow-sm mb-4">
         <div className="card-body">
           <div className="row">
             <div className="col-md-4 mb-3 mb-md-0">
-              <label htmlFor="categoryFilter" className="form-label">Filter by Category</label>
+              <label htmlFor="categoryFilter" className="form-label">
+                Filter by Category
+              </label>
               <select
                 id="categoryFilter"
                 name="category"
@@ -103,7 +107,9 @@ const ProductList = ({ showAlert }) => {
               </select>
             </div>
             <div className="col-md-4 mb-3 mb-md-0">
-              <label htmlFor="conditionFilter" className="form-label">Filter by Condition</label>
+              <label htmlFor="conditionFilter" className="form-label">
+                Filter by Condition
+              </label>
               <select
                 id="conditionFilter"
                 name="condition"
@@ -120,7 +126,9 @@ const ProductList = ({ showAlert }) => {
               </select>
             </div>
             <div className="col-md-4">
-              <label htmlFor="sellerFilter" className="form-label">Filter by Seller</label>
+              <label htmlFor="sellerFilter" className="form-label">
+                Filter by Seller
+              </label>
               <input
                 type="text"
                 id="sellerFilter"
@@ -134,7 +142,7 @@ const ProductList = ({ showAlert }) => {
           </div>
         </div>
       </div>
-      
+
       {/* Products List */}
       {loading ? (
         <div className="d-flex justify-content-center my-5">
@@ -144,36 +152,50 @@ const ProductList = ({ showAlert }) => {
         </div>
       ) : products.length > 0 ? (
         <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-          {products.map(product => (
+          {products.map((product) => (
             <div className="col" key={product._id}>
               <div className="card h-100 shadow-sm">
                 <img
-                  src={product.images && product.images.length > 0
-                    ? product.images[0].startsWith('http')
-                      ? product.images[0]
-                      : `http://localhost:5000${product.images[0]}`
-                    : `https://via.placeholder.com/300x200?text=${product.name}`}
+                  src={
+                    product.images && product.images.length > 0
+                      ? product.images[0].startsWith("http")
+                        ? product.images[0]
+                        : `http://localhost:5000${product.images[0]}`
+                      : `https://via.placeholder.com/300x200?text=${product.name}`
+                  }
                   className="card-img-top"
                   alt={product.name}
-                  style={{ height: '200px', objectFit: 'cover' }}
+                  style={{ height: "200px", objectFit: "cover" }}
                 />
                 <div className="card-body">
                   <h5 className="card-title">{product.name}</h5>
-                  <p className="card-text text-truncate">{product.description}</p>
+                  <p className="card-text text-truncate">
+                    {product.description}
+                  </p>
                   <div className="d-flex justify-content-between align-items-center mb-2">
-                    <span className="badge bg-secondary">{product.category}</span>
+                    <span className="badge bg-secondary">
+                      {product.category}
+                    </span>
                     <span className="badge bg-info">{product.condition}</span>
                   </div>
-                  <p className="fw-bold text-primary">Starting Price: ${product.startingPrice}</p>
+                  <p className="fw-bold text-primary">
+                    Starting Price: ${product.startingPrice}
+                  </p>
                   <p className="text-muted mb-0">
                     <small>Seller: {product.seller.username}</small>
                   </p>
                 </div>
                 <div className="card-footer bg-white d-flex justify-content-between">
-                  <Link to={`/products/${product._id}`} className="btn btn-outline-primary">
+                  <Link
+                    to={`/products/${product._id}`}
+                    className="btn btn-outline-primary"
+                  >
                     View Details
                   </Link>
-                  <Link to={`/create-auction/${product._id}`} className="btn btn-primary">
+                  <Link
+                    to={`/create-auction/${product._id}`}
+                    className="btn btn-primary"
+                  >
                     Create Auction
                   </Link>
                 </div>
@@ -186,12 +208,12 @@ const ProductList = ({ showAlert }) => {
           No products found with the selected filters.
         </div>
       )}
-      
+
       {/* Pagination */}
       {totalPages > 1 && (
         <nav className="mt-4">
           <ul className="pagination justify-content-center">
-            <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
+            <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
               <button
                 className="page-link"
                 onClick={() => handlePageChange(currentPage - 1)}
@@ -200,11 +222,13 @@ const ProductList = ({ showAlert }) => {
                 Previous
               </button>
             </li>
-            
-            {[...Array(totalPages).keys()].map(page => (
+
+            {[...Array(totalPages).keys()].map((page) => (
               <li
                 key={page + 1}
-                className={`page-item ${currentPage === page + 1 ? 'active' : ''}`}
+                className={`page-item ${
+                  currentPage === page + 1 ? "active" : ""
+                }`}
               >
                 <button
                   className="page-link"
@@ -214,8 +238,12 @@ const ProductList = ({ showAlert }) => {
                 </button>
               </li>
             ))}
-            
-            <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
+
+            <li
+              className={`page-item ${
+                currentPage === totalPages ? "disabled" : ""
+              }`}
+            >
               <button
                 className="page-link"
                 onClick={() => handlePageChange(currentPage + 1)}
@@ -231,4 +259,4 @@ const ProductList = ({ showAlert }) => {
   );
 };
 
-export default ProductList; 
+export default ProductList;
