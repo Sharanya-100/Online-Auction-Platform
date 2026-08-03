@@ -5,7 +5,7 @@ import AuthContext from "../../context/AuthContext";
 import { useSocket } from "../../context/SocketContext";
 
 const AuctionList = ({ showAlert }) => {
-  const { isAuthenticated, user } = useContext(AuthContext);
+  const { isAuthenticated } = useContext(AuthContext);
   const socket = useSocket();
 
   const [auctions, setAuctions] = useState([]);
